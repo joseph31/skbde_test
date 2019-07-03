@@ -12,15 +12,22 @@
   
 ## System pre-configuration checks
   0. connect to each server (public IP)
-  
+      * (by terminal)  
+      * (by secureCRT)
   1. Update yum 
-      * '# yum update 
+      * #yum update 
   2. Change the run-level to multi-user text mode
-      * '# systemctl get-default
-      * '# systemctl set-default multi-user.target 
+      * #systemctl get-default
+      * #systemctl set-default multi-user.target 
   3. Disable SE linux
+      * #sestatus 
   4. Disable firewall
-  5. Check vm.swappiness & update permanently as necessary
+      * 방화벽 중지: #systemctl stop firewalld
+      * 방화벽 자동시작 해제 (재부팅시 켜지지 않음): #systemctl disable firewalld
+  5. Check vm.swappiness & update permanently as necessary (= set value = 1)
+      * #sysctl vm.swappiness
+      * #vi /etc/sysctl.conf --> vm.swappiness = 1
+      * sysctl -w vm.swappiness=1
   6. Disable transparent hugepage support permanently
   7. Check to see that nscd service is running
   8. Check to see that ntp service is running
