@@ -36,7 +36,7 @@
 * desc
   * desc
 
-## MySQL configuration - plan two detail
+## MySQL installation - plan two detail
 * desc
   * desc
 
@@ -60,7 +60,7 @@
 * System pre-configuration checks
 * Path B install using CM 5.15x
 * Install & configure MariaDB(MySQL)
-* MySQL configuration - plan two detail
+* MySQL installation - plan two detail
 * Install a cluster & deploy CDH
 * Install Sqoop, Spark, and Kafka
 * Test cluster 
