@@ -1,9 +1,9 @@
 # skbde_test
-* 과정명: Big Data Engineering Hands-on
-* 그룹 #: 4 
-* 내용: Installing CDH using CM - hands-on from scratch 
+* Big Data Engineering Hands-on
+* group 4 
+* Installing CDH using CM - hands-on from scratch 
 
-## CM(Cloudera Manager)으로 CDH 인스톨하기
+## Installing CDH using CM
 ### Table of Conents
 * System pre-configuration checks
 * Path B install using CM 5.15x
