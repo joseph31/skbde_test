@@ -28,8 +28,9 @@
       * 방화벽 자동시작 해제 (재부팅시 켜지지 않음): #systemctl disable firewalld
   5. Check vm.swappiness & update permanently as necessary (= set value = 1)
       * #sysctl vm.swappiness
-      * #vi /etc/sysctl.conf --> vm.swappiness = 1
-        * sysctl -w vm.swappiness=1
+      * #vi /etc/sysctl.conf
+          * vm.swappiness = 1
+      * #sysctl -w vm.swappiness=1
   6. Disable transparent hugepage support permanently
       * (too long) 
   7. Check to see that nscd service is running
@@ -75,8 +76,12 @@ o Use getent to make sure you are getting proper host name and ip address
           * HOSTNAME=worker3.skplanet.com
 
 ## Path B install using CM 5.15x
-* desc
-  * desc
+* Copy & install CM Repo 
+  * ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
+  * #wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+  * #sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
+* Install JDK 
+  
 
 ## Install & configure MariaDB(MySQL)
 * desc
