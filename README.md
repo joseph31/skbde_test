@@ -52,8 +52,11 @@
 * desc
   * desc
   
-  
-## Table of Conents
+## Setup cluster to begin data analysis 
+* desc
+  * desc
+
+## cf. Table of Conents
 * System pre-configuration checks
 * Path B install using CM 5.15x
 * Install & configure MariaDB(MySQL)
@@ -62,6 +65,3 @@
 * Install Sqoop, Spark, and Kafka
 * Test cluster 
 * Setup cluster to begin data analysis 
-## Setup cluster to begin data analysis 
-* desc
-  * desc
