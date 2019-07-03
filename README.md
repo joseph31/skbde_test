@@ -29,7 +29,7 @@
   5. Check vm.swappiness & update permanently as necessary (= set value = 1)
       * #sysctl vm.swappiness
       * #vi /etc/sysctl.conf --> vm.swappiness = 1
-      * sysctl -w vm.swappiness=1
+        * sysctl -w vm.swappiness=1
   6. Disable transparent hugepage support permanently
       * (too long) 
   7. Check to see that nscd service is running
@@ -39,6 +39,7 @@
       * #systemctl start nscd
       * #systemctl status nscd
   8. Check to see that ntp service is running - disable chrony as necessary 
+      * ntp: The Network Time Protocol 
       * #yum install ntp
       * #vi /etc/ntp.conf
       * #systemctl start ntpd
@@ -53,12 +54,27 @@
       * #vi /etc/sysctl.conf
         * net.ipv6.conf.all.disable_ipv6 = 1
         * net.ipv6.conf.default.disable_ipv6 = 1
-      * # sysctl -p
-
-  10. During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server or setup a private/public key access. Whichever method you choose, make sure you test access with ssh before proceeding.
+      * #sysctl -p
+  10. During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
+  In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server or setup a private/public key access. Whichever method you choose, make sure you test access with ssh before proceeding.
+      * (별도 설명?) 
   11. Show that forward and reverse host lookups are correctly resolved
+o In this lab, we will use /etc/hosts Files setting to accomplish this 
+o Add the necessary information to the /etc/hosts files 
+o Check to make sure that File lookup has priority 
+o Use getent to make sure you are getting proper host name and ip address 
   12. Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file.
-    
+      * vi /etc/hosts
+172.31.15.117    cm.skplanet.com        cm
+172.31.0.89      master1.skplanet.com   master1
+172.31.0.71      worker1.skplanet.com   worker1
+172.31.8.189     worker2.skplanet.com   worker2
+172.31.12.75     worker3.skplanet.com   worker3
+
+hostnamectl set-hostname worker3.skplanet.com
+
+vi /etc/sysconfig/network 
+HOSTNAME=worker3.skplanet.com
 
 ## Path B install using CM 5.15x
 * desc
