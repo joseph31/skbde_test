@@ -64,17 +64,15 @@ o Add the necessary information to the /etc/hosts files
 o Check to make sure that File lookup has priority 
 o Use getent to make sure you are getting proper host name and ip address 
   12. Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file.
-      * vi /etc/hosts
-172.31.15.117    cm.skplanet.com        cm
-172.31.0.89      master1.skplanet.com   master1
-172.31.0.71      worker1.skplanet.com   worker1
-172.31.8.189     worker2.skplanet.com   worker2
-172.31.12.75     worker3.skplanet.com   worker3
-
-hostnamectl set-hostname worker3.skplanet.com
-
-vi /etc/sysconfig/network 
-HOSTNAME=worker3.skplanet.com
+      * #vi /etc/hosts
+          * 172.31.15.117    cm.skplanet.com        cm
+          * 172.31.0.89      master1.skplanet.com   master1
+          * 172.31.0.71      worker1.skplanet.com   worker1
+          * 172.31.8.189     worker2.skplanet.com   worker2
+          * 172.31.12.75     worker3.skplanet.com   worker3
+      * #hostnamectl set-hostname worker3.skplanet.com
+      * #vi /etc/sysconfig/network 
+          * HOSTNAME=worker3.skplanet.com
 
 ## Path B install using CM 5.15x
 * desc
