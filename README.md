@@ -46,6 +46,15 @@
       * #systemctl enable ntpd
       * #systemctl status chronyd  : inactive 상태임
   9. Disable IPv6
+      * ref: https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_IPv6_%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94
+      * [root@ip-172-31-15-117 ~]# sysctl net.ipv6.conf.all.disable_ipv6
+      * net.ipv6.conf.all.disable_ipv6 = 0            → disable_ipv6 이 0이므로 활성화 상태임
+      * #sysctl -w net.ipv6.conf.all.disable_ipv6=1   → disable_ipv6 이 1이므로 비활성화됨
+      * #vi /etc/sysctl.conf
+        * net.ipv6.conf.all.disable_ipv6 = 1
+        * net.ipv6.conf.default.disable_ipv6 = 1
+      * # sysctl -p
+
   10. During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server or setup a private/public key access. Whichever method you choose, make sure you test access with ssh before proceeding.
   11. Show that forward and reverse host lookups are correctly resolved
   12. Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file.
