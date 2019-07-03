@@ -11,6 +11,8 @@
       * command) # cmd 
   
 ## System pre-configuration checks
+  0. connect to each server (public IP)
+  
   1. Update yum 
       * '# yum update 
   2. Change the run-level to multi-user text mode
