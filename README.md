@@ -12,7 +12,7 @@
   
 ## A. System pre-configuration checks
   0. connect to each server (public IP)
-      * (by terminal) (e.g. #ssh -i /path/to/keyname.pem@13.209.93.133)   
+      * (by terminal) (e.g. #ssh -i /path/to/keyname.pem centos@13.209.93.133)   
       * (by secureCRT)
   1. Update yum 
       * #yum update 
@@ -101,12 +101,12 @@ o Use getent to make sure you are getting proper host name and ip address
       * SET PASSWORD = PASSWORD('Admin123!');
       * FLUSH PRIVILEGES;
   * mysql> show grants;
-+---------------------------------------------------------------------+
-| Grants for root@localhost                                           |
-+---------------------------------------------------------------------+
-| GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
-| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
-+---------------------------------------------------------------------+
+      * +---------------------------------------------------------------------+
+      * | Grants for root@localhost                                           |
+      * +---------------------------------------------------------------------+
+      * | GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
+      * | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
+      * +---------------------------------------------------------------------+
 2 rows in set (0.00 sec)
 
   * #vi /etc/my.cnf
