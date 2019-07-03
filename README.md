@@ -14,35 +14,35 @@
 * Test cluster 
 * Setup cluster to begin data analysis 
   
-### System pre-configuration checks
+## System pre-configuration checks
 * Basic Setting
   * yum update
   * 
 
-### Path B install using CM 5.15x
+## Path B install using CM 5.15x
 * desc
   * desc
 
-### Install & configure MariaDB(MySQL)
+## Install & configure MariaDB(MySQL)
 * desc
   * desc
 
-### MySQL configuration - plan two detail
+## MySQL configuration - plan two detail
 * desc
   * desc
 
-### Install a cluster & deploy CDH
+## Install a cluster & deploy CDH
 * desc
   * desc
 
-### Install Sqoop, Spark, and Kafka
+## Install Sqoop, Spark, and Kafka
 * desc
   * desc
 
-### Test cluster 
+## Test cluster 
 * desc
   * desc
 
-### Setup cluster to begin data analysis 
+## Setup cluster to begin data analysis 
 * desc
   * desc
