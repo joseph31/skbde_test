@@ -12,10 +12,10 @@
   
 ## System pre-configuration checks
   1. Update yum 
-      * desc) 
-        - dd
-      * command) # yum update 
+      * '# yum update 
   2. Change the run-level to multi-user text mode
+      * '# systemctl get-default
+      * '# systemctl set-default multi-user.target 
   3. Disable SE linux
   4. Disable firewall
   5. Check vm.swappiness & update permanently as necessary
