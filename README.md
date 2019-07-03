@@ -3,14 +3,14 @@
 * Big Data Engineering Hands-on
 * group 4 
 * Installing CDH using CM - hands-on from scratch 
-
-## (title)
-  1. (title)
-      * desc) 
-        - dd
-      * command) # cmd 
+* ip addresses by host 
+    * host 1: 13.209.93.133    172.31.15.117
+    * host 2: 15.164.136.136   172.31.0.89
+    * host 3: 15.164.161.233   172.31.0.71
+    * host 4: 15.164.172.180   172.31.8.189
+    * host 5: 15.164.189.170   172.31.12.75 
   
-## A. System pre-configuration checks
+## System pre-configuration checks
   0. connect to each server (public IP)
       * (by terminal) (e.g. #ssh -i /path/to/keyname.pem centos@13.209.93.133)   
       * (by secureCRT)
