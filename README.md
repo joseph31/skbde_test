@@ -66,21 +66,5 @@
 * Test cluster 
 * Setup cluster to begin data analysis 
 
-## cf. Given IP addresses by host
-* Given IP addresses by host 
-  * host #1
-      * public 13.209.93.133
-      * private 172.31.15.117
-  * host #2
-      * public 15.164.136.136
-      * private 172.31.0.89
-  * host #3
-      * public 15.164.161.233
-      * private 172.31.0.71
-  * host #4
-      * public 15.164.172.180
-      * private 172.31.8.189
-  * host #5
-      * public 15.164.189.170
-      * private 172.31.12.75
+
 
