@@ -76,13 +76,40 @@ o Use getent to make sure you are getting proper host name and ip address
           * HOSTNAME=worker3.skplanet.com
 
 ## Path B install using CM 5.15x
-* Copy & install CM Repo 
+* Copy & install CM Repo (CM: Cloudera Manager, version 5.15.2)
   * ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
   * #wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
   * #sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
-* Install JDK 
-  
+* Install JDK (version: 1.8) 
+  * #scp  -i ./SKT.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
+  * #tar -zxvf jdk-8u202-linux-x64.tar.gz
+  * #mkdir /app
+  * #mv jdk1.8.0_202 /app/
+  * #vi /etc/profile
+      * JAVA_HOME=/app/jdk1.8.0_202
+      * PATH=$PATH:$JAVA_HOME/bin
+      * source /etc/profile
+  * #rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+  * #yum install -y mysql-community-server
+  * #systemctl start mysqld
+  * #grep 'temporary password' /var/log/mysqld.log
+  * [root@cm ~]# grep 'temporary password' /var/log/mysqld.log
+      * 2019-07-03T05:03:31.890985Z 1 [Note] A temporary password is generated for root@localhost: lNWoGSk0Bp(b
+      * SET PASSWORD = PASSWORD('Admin123!');
+      * FLUSH PRIVILEGES;
+  * mysql> show grants;
++---------------------------------------------------------------------+
+| Grants for root@localhost                                           |
++---------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
+| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
++---------------------------------------------------------------------+
+2 rows in set (0.00 sec)
 
+  * #vi /etc/my.cnf
+    * validate-password=off
+  * #systemctl restart mysqld
+  
 ## Install & configure MariaDB(MySQL)
 * desc
   * desc
