@@ -4,20 +4,15 @@
 * group 4 
 * Installing CDH using CM - hands-on from scratch 
 
-## Table of Conents
-* System pre-configuration checks
-* Path B install using CM 5.15x
-* Install & configure MariaDB(MySQL)
-* MySQL configuration - plan two detail
-* Install a cluster & deploy CDH
-* Install Sqoop, Spark, and Kafka
-* Test cluster 
-* Setup cluster to begin data analysis 
+
   
 ## System pre-configuration checks
-* Basic Setting
-  * yum update
-  * 
+  1. yum update
+      * command) # yum update 
+  2. multi-user text mode
+  3. disable SE linux
+  4. 
+    
 
 ## Path B install using CM 5.15x
 * desc
@@ -42,7 +37,17 @@
 ## Test cluster 
 * desc
   * desc
-
+  
+  
+## Table of Conents
+* System pre-configuration checks
+* Path B install using CM 5.15x
+* Install & configure MariaDB(MySQL)
+* MySQL configuration - plan two detail
+* Install a cluster & deploy CDH
+* Install Sqoop, Spark, and Kafka
+* Test cluster 
+* Setup cluster to begin data analysis 
 ## Setup cluster to begin data analysis 
 * desc
   * desc
