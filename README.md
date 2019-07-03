@@ -1,10 +1,10 @@
 # skbde_test
+## Basic Info
 * Big Data Engineering Hands-on
 * group 4 
 * Installing CDH using CM - hands-on from scratch 
 
-## Installing CDH using CM
-### Table of Conents
+## Table of Conents
 * System pre-configuration checks
 * Path B install using CM 5.15x
 * Install & configure MariaDB(MySQL)
