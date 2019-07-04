@@ -44,22 +44,22 @@ Version	        Custom Service Descriptor	        Parcel Repository
 
 3. Set the file ownership of the service descriptor to cloudera-scm:cloudera-scm with permission 644.
 
-  * [root@cm csd]# pwd
-      * /opt/cloudera/csd
-  * [root@cm csd]# cp /home/centos/SPARK2_ON_YARN-2.4.0.cloudera2.jar ./
-  * [root@cm csd]# ll
-      * total 20
-      * -rw-r--r-- 1 root root 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
-  * [root@cm csd]# chown cloudera-scm:cloudera-scm SPARK2_ON_YARN-2.4.0.cloudera2.jar 
-  * [root@cm csd]# ll
-      * total 20
-      * -rw-r--r-- 1 cloudera-scm cloudera-scm 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
-  * [root@cm csd]# 
-  * [root@cm csd]# chmod 644 SPARK2_ON_YARN-2.4.0.cloudera2.jar 
-  * [root@cm csd]# ll
-      * total 20
-      * -rw-r--r-- 1 cloudera-scm cloudera-scm 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
-  * [root@cm csd]# 
+    * [root@cm csd]# pwd
+        * /opt/cloudera/csd
+    * [root@cm csd]# cp /home/centos/SPARK2_ON_YARN-2.4.0.cloudera2.jar ./
+    * [root@cm csd]# ll
+        * total 20
+        * -rw-r--r-- 1 root root 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
+    * [root@cm csd]# chown cloudera-scm:cloudera-scm SPARK2_ON_YARN-2.4.0.cloudera2.jar 
+    * [root@cm csd]# ll
+        * total 20
+        * -rw-r--r-- 1 cloudera-scm cloudera-scm 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
+    * [root@cm csd]# 
+    * [root@cm csd]# chmod 644 SPARK2_ON_YARN-2.4.0.cloudera2.jar 
+    * [root@cm csd]# ll
+        * total 20
+        * -rw-r--r-- 1 cloudera-scm cloudera-scm 19066 Jul  4 00:49 SPARK2_ON_YARN-2.4.0.cloudera2.jar
+    * [root@cm csd]# 
 
 4. Restart the Cloudera Manager Server with the following command:
   * command: systemctl restart cloudera-scm-server
