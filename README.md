@@ -3,7 +3,7 @@
 * Big Data Engineering Hands-on
 * group 4 
 * Installing CDH using CM - hands-on from scratch 
-* ip addresses by host 
+* ip addresses by host (public IP & private IP)
     * host 1: 13.209.93.133    172.31.15.117
     * host 2: 15.164.136.136   172.31.0.89
     * host 3: 15.164.161.233   172.31.0.71
