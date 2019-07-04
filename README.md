@@ -3,86 +3,88 @@
 
 ## Basic Info
 ### [Basic Info] 
-      * Big Data Engineering Hands-on
-      * group 4 
-      * Installing CDH using CM - hands-on from scratch 
+     * Big Data Engineering Hands-on
+     * group 4 
+     * Installing CDH using CM - hands-on from scratch 
 
 ### [IP addresses by host(public & private)]
-    * host 1: 13.209.93.133    172.31.15.117
-    * host 2: 15.164.136.136   172.31.0.89
-    * host 3: 15.164.161.233   172.31.0.71
-    * host 4: 15.164.172.180   172.31.8.189
-    * host 5: 15.164.189.170   172.31.12.75 
+     * host 1: 13.209.93.133    172.31.15.117
+     * host 2: 15.164.136.136   172.31.0.89
+     * host 3: 15.164.161.233   172.31.0.71
+     * host 4: 15.164.172.180   172.31.8.189
+     * host 5: 15.164.189.170   172.31.12.75 
   
   
 ## System pre-configuration checks
 
 ### [Connect to each server]
-      * using public IPs
-      * (by terminal) (e.g. #ssh -i /path/to/keyname.pem centos@13.209.93.133)   
-      * (by secureCRT)
+     * using public IPs
+     * (by terminal) (e.g. #ssh -i /path/to/keyname.pem centos@13.209.93.133)   
+     * (by secureCRT)
 
 ### [Update yum] 
-      # yum update 
+     # yum update 
 
 ### [Change the run-level to multi-user text mode]
-      # systemctl get-default
-      # systemctl set-default multi-user.target 
+     # systemctl get-default
+     # systemctl set-default multi-user.target 
       
 ### [Disable SE linux]
-      # sestatus 
-      # (추가설명) 
+     # sestatus 
+     # (추가설명) 
       
 ### [Disable firewall]
-      * (본 실습에서는 이미 firewall이 disable되어 있음) 
-      * 방화벽 중지: #systemctl stop firewalld
-      * 방화벽 자동시작 해제 (재부팅시 켜지지 않음): #systemctl disable firewalld
+     * (본 실습에서는 이미 firewall이 disable되어 있음) 
+     * 방화벽 중지: #systemctl stop firewalld
+     * 방화벽 자동시작 해제 (재부팅시 켜지지 않음): #systemctl disable firewalld
 
 ### [Check vm.swappiness & update permanently]
-      # sysctl vm.swappiness
-      # vi /etc/sysctl.conf
+     # sysctl vm.swappiness
+     # vi /etc/sysctl.conf
           vm.swappiness = 1
-      # sysctl -w vm.swappiness=1
+     # sysctl -w vm.swappiness=1
       
-### [Disable transparent hugepage support 'permanently']
-      * (too long) 
+### [Disable transparent hugepage support permanently]
+     * (too long) 
       
 ### [Check to see that nscd service is running]
-      * nscd: Name Service Cache Daemon 
-      # yum install nscd
-      # systemctl enable nscd
-      # systemctl start nscd
-      # systemctl status nscd
+     * nscd: Name Service Cache Daemon 
+     # yum install nscd
+     # systemctl enable nscd
+     # systemctl start nscd
+     # systemctl status nscd
 
 ### [Check to see that ntp service is running - disable chrony as necessary]
-      * ntp: The Network Time Protocol 
-      # yum install ntp
-      # vi /etc/ntp.conf
-      # systemctl start ntpd
-      # systemctl status ntpd
-      # systemctl enable ntpd
-      # systemctl status chronyd  : inactive 상태임
+     * ntp: The Network Time Protocol 
+     # yum install ntp
+     # vi /etc/ntp.conf
+     # systemctl start ntpd
+     # systemctl status ntpd
+     # systemctl enable ntpd
+     # systemctl status chronyd  : inactive 상태임
       
 ### [Disable IPv6]
-      * ref: https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_IPv6_%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94
-      [root@ip-172-31-15-117 ~]# sysctl net.ipv6.conf.all.disable_ipv6
-         net.ipv6.conf.all.disable_ipv6 = 0            → disable_ipv6 이 0이므로 활성화 상태임
-      # sysctl -w net.ipv6.conf.all.disable_ipv6=1   → disable_ipv6 이 1이므로 비활성화됨
-      # vi /etc/sysctl.conf
-         net.ipv6.conf.all.disable_ipv6 = 1
-         net.ipv6.conf.default.disable_ipv6 = 1
-      # sysctl -p
+     * ref: https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_IPv6_%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94
+     [root@ip-172-31-15-117 ~]# sysctl net.ipv6.conf.all.disable_ipv6
+          net.ipv6.conf.all.disable_ipv6 = 0            → disable_ipv6 이 0이므로 활성화 상태임
+     # sysctl -w net.ipv6.conf.all.disable_ipv6=1   → disable_ipv6 이 1이므로 비활성화됨
+     # vi /etc/sysctl.conf
+          net.ipv6.conf.all.disable_ipv6 = 1
+          net.ipv6.conf.default.disable_ipv6 = 1
+     # sysctl -p
       
 ### [desc] 
-      * During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server or setup a private/public key access. Whichever method you choose, make sure you test access with ssh before proceeding.
-      * (별도 설명?)
+     During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
+     In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server 
+     or setup a private/public key access. 
+     Whichever method you choose, make sure you test access with ssh before proceeding.
+      * (별도 설명 요) 
       
 ### [Show that forward and reverse host lookups are correctly resolved] 
-      * description
-         * In this lab, we will use /etc/hosts Files setting to accomplish this 
-         * Add the necessary information to the /etc/hosts files 
-         * Check to make sure that File lookup has priority 
-         * Use getent to make sure you are getting proper host name and ip address 
+     * In this lab, we will use /etc/hosts Files setting to accomplish this 
+     * Add the necessary information to the /etc/hosts files 
+     * Check to make sure that File lookup has priority 
+     * Use getent to make sure you are getting proper host name and ip address 
             
 ### [Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file]
       # vi /etc/hosts
