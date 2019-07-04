@@ -31,12 +31,24 @@
       
 ### [Disable SE linux]
      # sestatus 
-     # (추가설명) 
+     * Set SELinux in permissive mode (effectively disabling it)
+        setenforce 0
+        sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+        action. 1
+        vi /etc/sysconfig/selinux
+        SELINUX=enforcing 을 SELINUX=disabled 로 변경후 저장한다.
+        :%s/SELINUX=enforcing/SELINUX=disabled/s
+
+        reboot
+        disabled
       
 ### [Disable firewall]
      * (본 실습에서는 이미 firewall이 disable되어 있음) 
-     * 방화벽 중지: #systemctl stop firewalld
-     * 방화벽 자동시작 해제 (재부팅시 켜지지 않음): #systemctl disable firewalld
+     * 방화벽 중지
+        # systemctl stop firewalld
+     * 방화벽 자동시작 해제 (재부팅시 켜지지 않음
+        # systemctl disable firewalld
 
 ### [Check vm.swappiness & update permanently]
      # sysctl vm.swappiness
@@ -74,35 +86,35 @@
      # sysctl -p
       
 ### [desc] 
-     During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
-     In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server 
-     or setup a private/public key access. 
-     Whichever method you choose, make sure you test access with ssh before proceeding.
-      * (별도 설명 요) 
+    During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
+    In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server 
+    or setup a private/public key access. 
+    Whichever method you choose, make sure you test access with ssh before proceeding.
+    * (별도 설명 요) 
       
 ### [Show that forward and reverse host lookups are correctly resolved] 
-     * In this lab, we will use /etc/hosts Files setting to accomplish this 
-     * Add the necessary information to the /etc/hosts files 
-     * Check to make sure that File lookup has priority 
-     * Use getent to make sure you are getting proper host name and ip address 
+    * In this lab, we will use /etc/hosts Files setting to accomplish this 
+    * Add the necessary information to the /etc/hosts files 
+    * Check to make sure that File lookup has priority 
+    * Use getent to make sure you are getting proper host name and ip address 
             
 ### [Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file]
-      # vi /etc/hosts
-         172.31.15.117    cm.skplanet.com        cm
-         172.31.0.89      master1.skplanet.com   master1
-         172.31.0.71      worker1.skplanet.com   worker1
-         172.31.8.189     worker2.skplanet.com   worker2
-         172.31.12.75     worker3.skplanet.com   worker3
-      # hostnamectl set-hostname worker3.skplanet.com
-      # vi /etc/sysconfig/network 
-         HOSTNAME=worker3.skplanet.com
+    # vi /etc/hosts
+        172.31.15.117    cm.skplanet.com        cm
+        172.31.0.89      master1.skplanet.com   master1
+        172.31.0.71      worker1.skplanet.com   worker1
+        172.31.8.189     worker2.skplanet.com   worker2
+        172.31.12.75     worker3.skplanet.com   worker3
+    # hostnamectl set-hostname worker3.skplanet.com
+    # vi /etc/sysconfig/network 
+        HOSTNAME=worker3.skplanet.com
 
 
 ## Path B install using CM 5.15x (part 1)
 
-### [Copy & install CM Repo]
-     * ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
+### [Copy CM Repo]
      * version: 5.15.2 
+     * ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
      * #wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
      * #sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
 
@@ -141,112 +153,108 @@
        # systemctl restart mysqld
   
   
-## Install CM (part 2)
-* setting
-    * #yum install cloudera-manager-daemons cloudera-manager-server
-    * #yum remove  cloudera-manager-daemons cloudera-manager-server
-    * #yum install -y cloudera-manager-daemons cloudera-manager-agent
+## Install & configure CM
+
+### [Install CM] 
+    # yum install cloudera-manager-daemons cloudera-manager-server
+    # yum remove  cloudera-manager-daemons cloudera-manager-server
+    # yum install -y cloudera-manager-daemons cloudera-manager-agent
     * (에러 및 설명)
+
+### [Setting mysqld]
     
-    * #vi /etc/my.cnf 
-[mysqld]
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
-transaction-isolation = READ-COMMITTED
-*# Disabling symbolic-links is recommended to prevent assorted security risks;
-*# to do so, uncomment this line:
-symbolic-links = 0
+    # vi /etc/my.cnf 
 
-key_buffer_size = 32M
-max_allowed_packet = 32M
-thread_stack = 256K
-thread_cache_size = 64
-query_cache_limit = 8M
-query_cache_size = 64M
-query_cache_type = 1
+        datadir=/var/lib/mysql
+        socket=/var/lib/mysql/mysql.sock
+        transaction-isolation = READ-COMMITTED
+        * Disabling symbolic-links is recommended to prevent assorted security risks;
+        * to do so, uncomment this line:
+        symbolic-links = 0
 
-max_connections = 550
-*#expire_logs_days = 10
-*#max_binlog_size = 100M
+        key_buffer_size = 32M
+        max_allowed_packet = 32M
+        thread_stack = 256K
+        thread_cache_size = 64
+        query_cache_limit = 8M
+        query_cache_size = 64M
+        query_cache_type = 1
 
-*#log_bin should be on a disk with enough free space.
-*#Replace '/var/lib/mysql/mysql_binary_log' with an appropriate path for your
-*#system and chown the specified folder to the mysql user.
-log_bin=/var/lib/mysql/mysql_binary_log
+        max_connections = 550
+        *#expire_logs_days = 10
+        *#max_binlog_size = 100M
 
-*#In later versions of MySQL, if you enable the binary log and do not set
-*#a server_id, MySQL will not start. The server_id must be unique within
-*#the replicating group.
-server_id=1
+        *#log_bin should be on a disk with enough free space.
+        *#Replace '/var/lib/mysql/mysql_binary_log' with an appropriate path for your
+        *#system and chown the specified folder to the mysql user.
+        log_bin=/var/lib/mysql/mysql_binary_log
 
-binlog_format = mixed
+        #In later versions of MySQL, if you enable the binary log and do not set
+        *#a server_id, MySQL will not start. The server_id must be unique within
+        *#the replicating group.
+        server_id=1
 
-read_buffer_size = 2M
-read_rnd_buffer_size = 16M
-sort_buffer_size = 8M
-join_buffer_size = 8M
+        binlog_format = mixed
 
-*# InnoDB settings
-innodb_file_per_table = 1
-innodb_flush_log_at_trx_commit  = 2
-innodb_log_buffer_size = 64M
-innodb_buffer_pool_size = 4G
-innodb_thread_concurrency = 8
-innodb_flush_method = O_DIRECT
-innodb_log_file_size = 512M
+        read_buffer_size = 2M
+        read_rnd_buffer_size = 16M
+        sort_buffer_size = 8M
+        join_buffer_size = 8M
+
+### [InnoDB settings]
+    innodb_file_per_table = 1
+    innodb_flush_log_at_trx_commit  = 2
+    innodb_log_buffer_size = 64M
+    innodb_buffer_pool_size = 4G
+    innodb_thread_concurrency = 8
+    innodb_flush_method = O_DIRECT
+    innodb_log_file_size = 512M
 
 
 
-[mysqld_safe]
-log-error=/var/log/mysqld.log
-pid-file=/var/run/mysqld/mysqld.pid
+### [mysqld_safe]
+    log-error=/var/log/mysqld.log
+    pid-file=/var/run/mysqld/mysqld.pid
 
-sql_mode=STRICT_ALL_TABLES
-validate-password=off
+    sql_mode=STRICT_ALL_TABLES
+    validate-password=off
 
-* mysql connector
-    * #wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
-    * #tar zxvf mysql-connector-java-5.1.47.tar.gz 
-    * #mkdir -p /usr/share/java/
-    * #cd mysql-connector-java-5.1.47
-    * #cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java.jar
-* create DB
-    * link: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/cm_ig_mysql.html#cmig_topic_5_5
-        * CREATE DATABASE scm DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE amon DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE rman DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE hue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE metastore DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE sentry DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE hnavue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE navms DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * CREATE DATABASE oozie DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    * mysql connector
+        # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
+        # tar zxvf mysql-connector-java-5.1.47.tar.gz 
+        # mkdir -p /usr/share/java/
+        # cd mysql-connector-java-5.1.47
+        # cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java.jar
+    * create DB
+        * link: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/cm_ig_mysql.html#cmig_topic_5_5
+            CREATE DATABASE scm DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE amon DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE rman DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE hue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE metastore DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE sentry DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE hnavue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE navms DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+            CREATE DATABASE oozie DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
 
 ## Install a cluster & deploy CDH
-* desc
-  * desc
+    * CM에서 실행 
 
 ## Install Sqoop, Spark, and Kafka
-* desc
-  * desc
+
+### [Install Sqoop]
+    * (작성)
+
+### [Install Spark]
+    * (작성)
+
+### [Install Kafka]
+    * (작성)
+
 
 ## Test cluster 
-* desc
-  * desc
+    * (TBD)
   
 ## Setup cluster to begin data analysis 
-* desc
-  * desc
-
-## cf. Table of Conents
-* System pre-configuration checks
-* Path B install using CM 5.15x
-* Install & configure MariaDB(MySQL)
-* MySQL installation - plan two detail
-* Install a cluster & deploy CDH
-* Install Sqoop, Spark, and Kafka
-* Test cluster 
-* Setup cluster to begin data analysis 
-
-
+    * (TBD)
 
