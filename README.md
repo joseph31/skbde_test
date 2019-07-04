@@ -76,12 +76,16 @@ o Use getent to make sure you are getting proper host name and ip address
           * HOSTNAME=worker3.skplanet.com
 
 ## Path B install using CM 5.15x (part 1)
-* Copy & install CM Repo (CM: Cloudera Manager, version 5.15.2)
+
+### [Copy & install CM Repo]
   * ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
+  * version: 5.15.2 
   * #wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
   * #sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
-* Install JDK (version: 1.8) 
-  * #scp  -i ./SKT.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
+
+### [Install JDK]
+  * version: 1.8
+  * scp  -i ./SKT.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
   * #tar -zxvf jdk-8u202-linux-x64.tar.gz
   * #mkdir /app
   * #mv jdk1.8.0_202 /app/
@@ -90,7 +94,7 @@ o Use getent to make sure you are getting proper host name and ip address
       * PATH=$PATH:$JAVA_HOME/bin
       * source /etc/profile
       
- ## Install & configure MySQL
+### [Install & configure MySQL]
 
   * #rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
   * #yum install -y mysql-community-server
@@ -107,7 +111,7 @@ o Use getent to make sure you are getting proper host name and ip address
       * | GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
       * | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
       * +---------------------------------------------------------------------+
-2 rows in set (0.00 sec)
+      * 2 rows in set (0.00 sec)
 
   * #vi /etc/my.cnf
     * validate-password=off
