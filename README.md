@@ -236,25 +236,93 @@
     validate-password=off
 
     * mysql connector
-        # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
-        # tar zxvf mysql-connector-java-5.1.47.tar.gz 
-        # mkdir -p /usr/share/java/
-        # cd mysql-connector-java-5.1.47
-        # cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java.jar
-    * create DB
-        * link: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/cm_ig_mysql.html#cmig_topic_5_5
-            CREATE DATABASE scm DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE amon DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE rman DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE hue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE metastore DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE sentry DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE hnavue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE navms DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-            CREATE DATABASE oozie DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
+    # tar zxvf mysql-connector-java-5.1.47.tar.gz 
+    # mkdir -p /usr/share/java/
+    # cd mysql-connector-java-5.1.47
+    # cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java.jar
 
-## Install a cluster & deploy CDH
-    * CM에서 실행 
+### [create DB]
+    https://www.cloudera.com/documentation/enterprise/5-15-x/topics/cm_ig_mysql.html#cmig_topic_5_5
+    CREATE DATABASE scm DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE amon DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE rman DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE hue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE metastore DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE sentry DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE hnavue DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE navms DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE oozie DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    
+    password : Hadoop123!
+
+    GRANT ALL ON scm.* TO 'scm'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON amon.* TO 'amon'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON rman.* TO 'rman'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON hue.* TO 'hue'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON metastore.* TO 'hive'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON sentry.* TO 'sentry'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON hnavue.* TO 'hnavue'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON navms.* TO 'navms'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'Hadoop123!';
+
+    Hadoop123!
+
+    ERROR 1044 (42000): Access denied for user 'root'@'%' to database 'scm'
+    ALTER USER 'root'@'%' IDENTIFIED BY 'Admin123!';
+    CREATE USER 'scm'@'%' IDENTIFIED BY 'Hadoop123!';
+    GRANT ALL PRIVILEGES ON scm.* TO 'scm'@'%';
+
+    flush privileges;
+
+    update user set authentication_string=password('Admin123!') where user='root';
+    create  user 'root'@'%' identified with mysql_native_password by 'Admin123!';
+
+    CREATE USER 'root'@'%' IDENTIFIED BY 'Admin123!'  ;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+
+## Step 5: Set up the Cloudera Manager Database
+
+    # /usr/share/cmf/schema/scm_prepare_database.sh mysql scm scm
+    # /usr/share/cmf/schema/scm_prepare_database.sh -h cm.skplanet.com mysql metastore hive 
+    # /usr/share/cmf/schema/scm_prepare_database.sh -h cm.skplanet.com mysql rman rman 
+    # /usr/share/cmf/schema/scm_prepare_database.sh -h cm.skplanet.com mysql hue hue 
+
+## Step 6: Install CDH and Other Software
+
+    # systemctl start cloudera-scm-server
+    # systemctl stop cloudera-scm-server
+    # tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
+    # vi /var/log/cloudera-scm-server/cloudera-scm-server.log
+    172.31.15.117    cm.skplanet.com        cm
+    172.31.0.89      master1.skplanet.com   master1
+    172.31.0.71      worker1.skplanet.com   worker1
+    172.31.8.189     worker2.skplanet.com   worker2
+    172.31.12.75     worker3.skplanet.com   worker3
+
+    cm.skplanet.com
+    master1.skplanet.com
+    worker1.skplanet.com
+    worker2.skplanet.com
+    worker3.skplanet.com
+
+    [root@cm yum.repos.d]# vi cloudera-manager.repo 
+    [cloudera-manager]
+    #Packages for Cloudera Manager, Version 5, on RedHat or CentOS 7 x86_64
+    name=Cloudera Manager
+    baseurl=https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
+    gpgkey =https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
+    gpgcheck = 1
+
+
+    echo '
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCz+BzjVT79k1zGDLaZS9D0iNqHlMJV4gvVB+9a0s4QKWVQFEAEbyAFl8MasI+TtjJWk4ISRyw8iPit0/3OJA/wpOhCHQkh+eXIOZeyNJouiyLrQd3q8ArZhDX2lrnRBsfndIwVbBw0n0zlLOWDglX7W8cZnarnrGt5Jirpij17vhRD3sakyAs/7oYbtlMSAXvG1cjB+pozKWzM7vG15+uchqvkOtjMnVJx3qnNzvV93wyoo1s+JG4v60jvezWWaXRZoyxpMrAHE2+COHg2nZ5aQUbuGib5arAiwi4WyPSoVI5DaMZnwPcHPxv6RijsGoP20LVTb+XnsIKViKC/gkQT root@dichdptx-ambari-dev01.sktx.ss' >> /root/.ssh/authorized_keys
+
+
+
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1zmB/NDVVD7gpg9p0cJIDx+sd1XPjGBhIptrTlM08i4lwXObR7zt/wOLVXdjvP5GE6cWf3OwyQzy8kL/T410YYkpeiolJAW7BVA00lZkI0yBGKVG/vW9/WkvQLg94Xtj93vHGkLnWgyIsjdxIlUeb8eFRxjhoExRvUIKZgINDtBZkqJT2vQJeXXPHcAMcN5aNkL2yp6icG2MPvnBiPqHc4sTNu6EkL3l9+x+S53qWaKrB9QF9/JVr5jsmdRfzXew5mAF5Cify0gktJEwg0jSImUjaH5SrKHqc+IpTxApttKRiRAFS1fEEhZR8FaqtOmP+URM4gnZNGQbVAdEc+KSl root@cm.skplanet.com
+
 
 ## Install Sqoop, Spark, and Kafka
 
@@ -274,3 +342,10 @@
 ## Setup cluster to begin data analysis 
     * (TBD)
 
+
+
+
+
+
+## Install a cluster & deploy CDH
+    * CM에서 실행 
