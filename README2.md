@@ -12,21 +12,21 @@
 
 
 ### [sql file scp]
-* files
-    * authors-23-04-2019-02-34-beta.sql.zip
-    * posts23-04-2019-02-44.sql.zip
-* commands
-    * scp  -i ./SKT.pem ./authors-23-04-2019-02-34-beta.sql.zip centos@13.209.93.133:/home/centos
-    * scp  -i ./SKT.pem ./posts23-04-2019-02-44.sql.zip centos@13.209.93.133:/home/centos
-    * [root@cm centos]# ls -al *.sql
-        * -rwxrwxrwx 1 root root   892780 Apr 23 02:34 authors-23-04-2019-02-34-beta.sql
-        * -rwxrwxrwx 1 root root 52680682 Apr 23 02:44 posts23-04-2019-02-44.sql
-    * mysql -u root -p
-        * CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * GRANT ALL ON test.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
-    * mysql -u training -p
-    * source authors-23-04-2019-02-34-beta.sql
-    * source posts23-04-2019-02-44.sql
+    * files
+        * authors-23-04-2019-02-34-beta.sql.zip
+        * posts23-04-2019-02-44.sql.zip
+    * commands
+        # scp  -i ./SKT.pem ./authors-23-04-2019-02-34-beta.sql.zip centos@13.209.93.133:/home/centos
+        # scp  -i ./SKT.pem ./posts23-04-2019-02-44.sql.zip centos@13.209.93.133:/home/centos
+        [root@cm centos]# ls -al *.sql
+          -rwxrwxrwx 1 root root   892780 Apr 23 02:34 authors-23-04-2019-02-34-beta.sql
+          -rwxrwxrwx 1 root root 52680682 Apr 23 02:44 posts23-04-2019-02-44.sql
+        # mysql -u root -p
+          CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+          GRANT ALL ON test.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
+        # mysql -u training -p
+        # source authors-23-04-2019-02-34-beta.sql
+        # source posts23-04-2019-02-44.sql
 
 ### [Install spark2]
 * link: https://www.cloudera.com/documentation/spark2/latest/topics/spark2.html
@@ -70,24 +70,24 @@ Version	        Custom Service Descriptor	        Parcel Repository
 
 ## Let’s test out our cluster 
 
-1. Create user “training” in linux and in hdfs. 
-    * useradd training -G hadoop 
-    * passwd training 
-    * hdfs dfs -mkdir /user/training
-    * hdfs dfs -chown training:hadoop /user/training
+### [Create user “training” in linux and in hdfs]
+    # useradd training -G hadoop 
+    # passwd training 
+    # hdfs dfs -mkdir /user/training
+    # hdfs dfs -chown training:hadoop /user/training
     
-2. (추가바람) 
-    * mysql -u root -p
-        * CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-        * GRANT ALL ON *.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
+### (추가바람) 
+    # mysql -u root -p
+      CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+      GRANT ALL ON *.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
 
-    * mysql -u training -p
-        * source authors-23-04-2019-02-34-beta.sql
-        * source posts23-04-2019-02-44.sql
+    # mysql -u training -p
+      source authors-23-04-2019-02-34-beta.sql
+      source posts23-04-2019-02-44.sql
 
-3. Extract tables authors and posts from the database and create Hive tables. 
+### [Extract tables authors and posts from the database and create Hive tables]
 
-    * a. Use Sqoop to import the data from authors and posts 
+    a. Use Sqoop to import the data from authors and posts 
         * beeline -u jdbc:hive2://cm.skplanet.com:10000 -n hive
             * authors, posts
         * sqoop import --connect jdbc:mysql://cm.skplanet.com:3306/test \
@@ -100,11 +100,11 @@ Version	        Custom Service Descriptor	        Parcel Repository
           --create-hive-table    \
           --hive-table authors
 
-    * b. For both tables, you will import the data in tab delimited text format 
-    * c. The imported data should be saved in training’s HDFS home directory 
-        * i. Create authors and posts directories in your HDFS home directory 
-        * ii. Save the imported data in each 
-    * d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step. 
-    * e. You are free to use whatever database in Hive. 
-    * f. Create authors as an external table. 
-    * g. Create posts as a managed table. 
+    b. For both tables, you will import the data in tab delimited text format 
+    c. The imported data should be saved in training’s HDFS home directory 
+        i. Create authors and posts directories in your HDFS home directory 
+        ii. Save the imported data in each 
+    d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step. 
+    e. You are free to use whatever database in Hive. 
+    f. Create authors as an external table. 
+    g. Create posts as a managed table. 
