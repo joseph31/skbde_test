@@ -117,26 +117,26 @@
       
 ### [Install & configure MySQL]
 
-  * #rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
-  * #yum install -y mysql-community-server
-  * #systemctl start mysqld
-  * #grep 'temporary password' /var/log/mysqld.log
-  * [root@cm ~]# grep 'temporary password' /var/log/mysqld.log
-      * 2019-07-03T05:03:31.890985Z 1 [Note] A temporary password is generated for root@localhost: lNWoGSk0Bp(b
-      * SET PASSWORD = PASSWORD('Admin123!');
-      * FLUSH PRIVILEGES;
-  * mysql> show grants;
-      * +---------------------------------------------------------------------+
-      * | Grants for root@localhost                                           |
-      * +---------------------------------------------------------------------+
-      * | GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
-      * | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
-      * +---------------------------------------------------------------------+
-      * 2 rows in set (0.00 sec)
+       # rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+       # yum install -y mysql-community-server
+       # systemctl start mysqld
+       # grep 'temporary password' /var/log/mysqld.log
+       [root@cm ~]# grep 'temporary password' /var/log/mysqld.log
+          2019-07-03T05:03:31.890985Z 1 [Note] A temporary password is generated for root@localhost: lNWoGSk0Bp(b
+          SET PASSWORD = PASSWORD('Admin123!');
+          FLUSH PRIVILEGES;
+       mysql> show grants;
+           +---------------------------------------------------------------------+
+           | Grants for root@localhost                                           |
+           +---------------------------------------------------------------------+
+           | GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
+           | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
+           +---------------------------------------------------------------------+
+           2 rows in set (0.00 sec)
 
-  * #vi /etc/my.cnf
-    * validate-password=off
-  * #systemctl restart mysqld
+       # vi /etc/my.cnf
+          validate-password=off
+       # systemctl restart mysqld
   
   
 ## Install CM (part 2)
