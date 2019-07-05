@@ -11,13 +11,14 @@
     
     New IP addresses (host: 1~5, public & private)
     52.78.148.50	172.31.0.116
-    52.78.3.56	    172.31.3.209
+    52.78.3.56      172.31.3.209
     52.78.52.113	172.31.12.210
     52.78.66.117	172.31.8.176
     54.180.166.152	172.31.2.67
     (참고: JDK버전 이슈로 새 IP 부여받음. 일부 내용은 아래 명시된 최초 IP로 세팅한 내용이 남아있음) 
   
-~~host 1: 13.209.93.133    172.31.15.117<br/>
+~~previous IPs</br>
+host 1: 13.209.93.133    172.31.15.117<br/>
 host 2: 15.164.136.136   172.31.0.89<br/>
 host 3: 15.164.161.233   172.31.0.71<br/>
 host 4: 15.164.172.180   172.31.8.189<br/>
@@ -33,40 +34,42 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     (by secureCRT)
 
 ### [Update yum] 
-    # yum update 
+    # sudo yum -y update
+    # sudo yum install -y wget
+    # sudo yum install -y unzip 
 
 ### [Change the run-level to multi-user text mode]
-    # systemctl get-default
-    # systemctl set-default multi-user.target 
+    # sudo systemctl get-default
+    multi-user.target (* 아닌 경우 아래 실행) 
+    # sudo systemctl set-default multi-user.target 
       
 ### [Disable SE linux]
     # sestatus 
-    * Set SELinux in permissive mode (effectively disabling it)
+    SELinux status:                 disabled  (* 아닌 경우 아래 실행)
+    
+    cf. Set SELinux in permissive mode (effectively disabling it)
     setenforce 0
     sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
-    action. 1
+    cf. 
     vi /etc/sysconfig/selinux
     SELINUX=enforcing 을 SELINUX=disabled 로 변경후 저장한다.
     :%s/SELINUX=enforcing/SELINUX=disabled/s
-
     reboot
     disabled
       
 ### [Disable firewall]
-    (본 실습에서는 이미 firewall이 disable되어 있음) 
-    방화벽 중지
-    # systemctl stop firewalld
-
-    방화벽 자동시작 해제 (재부팅시 켜지지 않음)
-    # systemctl disable firewalld
+    (* 본 실습에서는 이미 firewall이 disable되어 있음) 
+    방화벽 중지: # sudo systemctl stop firewalld
+    Failed to stop firewalld.service: Unit firewalld.service not loaded.
+    방화벽 자동시작 해제(재부팅시 켜지지 않음): # systemctl disable firewalld
 
 ### [Check vm.swappiness & update permanently]
-    # sysctl vm.swappiness
-    # vi /etc/sysctl.conf
-    vm.swappiness = 1
-    # sysctl -w vm.swappiness=1
-      
+    # cat /proc/sys/vm/swappiness
+    1 (* 아닌 경우 아래 실행) 
+    
+    # sudo sysctl -w vm.swappiness=1
+          
 ### [Disable transparent hugepage support permanently]
     (too long) 
       
@@ -97,7 +100,7 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # sysctl -p
       
 ### [desc] 
-    During the installation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
+    During the instavllation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
     In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server 
     or setup a private/public key access. 
     Whichever method you choose, make sure you test access with ssh before proceeding.
@@ -116,6 +119,7 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     172.31.0.71      worker1.skplanet.com   worker1
     172.31.8.189     worker2.skplanet.com   worker2
     172.31.12.75     worker3.skplanet.com   worker3
+   
     # hostnamectl set-hostname worker3.skplanet.com
     # vi /etc/sysconfig/network 
     HOSTNAME=worker3.skplanet.com
@@ -126,12 +130,13 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
 ### [Copy CM Repo]
     version: 5.15.2 
     ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
+    
     # wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
     # sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
 
 ### [Install JDK]
     version: 1.8
-    # scp  -i ./SKT.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
+    [localhost]# scp  -i ./key.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
     # tar -zxvf jdk-8u202-linux-x64.tar.gz
     # mkdir /app
     # mv jdk1.8.0_202 /app/
@@ -147,6 +152,7 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # grep 'temporary password' /var/log/mysqld.log
     [root@cm ~]# grep 'temporary password' /var/log/mysqld.log
     2019-07-03T05:03:31.890985Z 1 [Note] A temporary password is generated for root@localhost: lNWoGSk0Bp(b
+    
     SET PASSWORD = PASSWORD('Admin123!');
     FLUSH PRIVILEGES;
     mysql> show grants;
