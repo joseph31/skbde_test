@@ -4,13 +4,13 @@
         ## System pre-configuration checks
         ## Path B install using CM 5.15x (part 1)
         ## Install a Cluster & deploy CDH (part 2)
-        Step 1: Configure a Repository
-        Step 2: Install JDK
-        Step 3: Install Cloudera Manager Server
-        Step 4: Install Databases
-        Step 5: Set up the Cloudera Manager Database
-        Step 6: Install CDH and Other Software
-        Step 7: Set Up a Cluster
+            Step 1: Configure a Repository
+            Step 2: Install JDK
+            Step 3: Install Cloudera Manager Server
+            Step 4: Install Databases
+            Step 5: Set up the Cloudera Manager Database
+            Step 6: Install CDH and Other Software
+            Step 7: Set Up a Cluster
 
 ## Intro 
 ### [Basic Info] 
