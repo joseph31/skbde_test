@@ -47,6 +47,10 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # sestatus 
     SELinux status:                 disabled  (* 아닌 경우 아래 실행)
     
+    # sudo vi /etc/selinux/config 
+    ...
+    SELINUXTYPE=targeted (* =disabled 로 수정) 
+    
     cf. Set SELinux in permissive mode (effectively disabling it)
     setenforce 0
     sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
@@ -65,13 +69,24 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     방화벽 자동시작 해제(재부팅시 켜지지 않음): # systemctl disable firewalld
 
 ### [Check vm.swappiness & update permanently]
+    # sudo vi /etc/sysctl.conf
+    ...
+    vm.swappiness=1 (* 없는경우 추가) 
+    
+    cf. 아래는 일시적인 방법
     # cat /proc/sys/vm/swappiness
     1 (* 아닌 경우 아래 실행) 
-    
     # sudo sysctl -w vm.swappiness=1
           
 ### [Disable transparent hugepage support permanently]
-    (too long) 
+    # cat /sys/kernel/mm/transparent_hugepage/enabled 
+    [always] madvise never  (* THP 활성화) 
+    always madvise [never]  (* THP 비활성화)
+    
+    # sudo vi /etc/rc.d/rc.local
+    ... (* 아래 항목 추가)
+    echo "never" > /sys/kernel/mm/transparent_hugepage/enabled
+    echo "never" > /sys/kernel/mm/transparent_hugepage/defrag
       
 ### [Check to see that nscd service is running]
     nscd: Name Service Cache Daemon 
