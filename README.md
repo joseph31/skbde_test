@@ -79,29 +79,112 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # sudo sysctl -w vm.swappiness=1
           
 ### [Disable transparent hugepage support permanently]
+    * THP: Transparent Huge Page 
     # cat /sys/kernel/mm/transparent_hugepage/enabled 
-    [always] madvise never  (* THP 활성화) 
-    always madvise [never]  (* THP 비활성화)
+    [always] madvise never  (* THP 활성화 상태) 
+    always madvise [never]  (* THP 비활성화 상태)
     
+    # cat /proc/meminfo | grep Huge
+    AnonHugePages:      6144 kB
+    HugePages_Total:       0
+    HugePages_Free:        0
+    HugePages_Rsvd:        0
+    HugePages_Surp:        0
+    Hugepagesize:       2048 kB
+
     # sudo vi /etc/rc.d/rc.local
     ... (* 아래 항목 추가)
     echo "never" > /sys/kernel/mm/transparent_hugepage/enabled
     echo "never" > /sys/kernel/mm/transparent_hugepage/defrag
+    
+    cf. 아래 'Action.#' 참고(명훈님) 
+            Action.1
+            mkdir /etc/tuned/transparent_hugepage 
+
+            vi /etc/tuned/transparent_hugepage/tuned.conf 
+            [main]
+            include=throughput-performance
+            [vm]
+            transparent_hugepages=never 
+
+            chmod +x /etc/tuned/transparent_hugepage/tuned.conf 
+
+            tuned-adm profile transparent_hugepage 
+
+            vi /etc/sysconfig/grup
+
+
+
+            Action.2 
+            /bin/echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+            Action.3
+            vi /etc/sysconfig/mic/default.conf  <== X
+
+
+
+            Action.4 
+            https://www.cloudera.com/documentation/enterprise/5-16-x/topics/cdh_admin_performance.html#cdh_performance__section_hw3_sdf_jq
+
+            echo never > /sys/kernel/mm/transparent_hugepage/enabled
+            echo never > /sys/kernel/mm/transparent_hugepage/defrag
+            chmod +x /etc/rc.d/rc.local
+
+            cat /etc/default/grub
+
+            vi /etc/default/grub
+            :%s/GRUB_CMDLINE_LINUX="console=tty0 crashkernel=auto console=ttyS0,115200"/GRUB_CMDLINE_LINUX="console=tty0 crashkernel=auto console=ttyS0,115200 transparent_hugepage=never"/c
+
+            grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+
+            echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
+            echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
+
+            sh -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
+            sh -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled" 
+
+
+            cat /sys/kernel/mm/transparent_hugepage/defrag
+            cat /sys/kernel/mm/transparent_hugepage/enabled  
+
+
+
+            [이슈] defrag 가 reboot 하고 나면 
+            [root@ip-172-31-15-117 ~]# cat /sys/kernel/mm/transparent_hugepage/defrag
+            [always] madvise never
+            [root@ip-172-31-15-117 ~]# cat /sys/kernel/mm/transparent_hugepage/enabled  
+            always madvise [never]
+
+
+            echo never > /sys/kernel/mm/transparent_hugepage/defrag
+            vi /etc/default/grub
+
+            grub2-mkconfig -o /boot/grub2/grub.cfg
+
+            [Solution]
+            vi /etc/rc.d/rc.local
+            echo never > /sys/kernel/mm/transparent_hugepage/enabled
+            echo never > /sys/kernel/mm/transparent_hugepage/defrag
       
 ### [Check to see that nscd service is running]
-    nscd: Name Service Cache Daemon 
-    # yum install nscd
-    # systemctl enable nscd
-    # systemctl start nscd
-    # systemctl status nscd
+    nscd.service - Name Service Cache Daemon 
+    # sudo yum install -y nscd
+    # sudo systemctl enable nscd
+    # sudo systemctl start nscd
+    # sudo systemctl status nscd
 
 ### [Check to see that ntp service is running - disable chrony as necessary]
-    ntp: The Network Time Protocol 
-    # yum install ntp
-    # vi /etc/ntp.conf
-    # systemctl start ntpd
-    # systemctl status ntpd
-    # systemctl enable ntpd
+    * ntpd.service - Network Time Service 
+    # sudo systemctl status ntpd
+    # sudo yum install ntp
+    # sudo systemctl enable ntpd
+    # sudo systemctl start ntpd
+    # sudo systemctl status ntpd
+    Active: active (running) since ... 
+    
+    * chronyd.service - NTP client/server
     # systemctl status chronyd  : inactive 상태임
       
 ### [Disable IPv6]
