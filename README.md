@@ -3,22 +3,33 @@
 
 ## Intro 
 ### [Basic Info] 
-    Big Data Engineering Hands-on
-    group 4 
-    Installing CDH using CM - hands-on from scratch 
+    What: Big Data Engineering Hands-on
+    Who: group 4 
+    Which ones: 1) CM & related env. installation 2) Yelp data analysis 3) Spark 
 
-### [IP addresses by host (public & private)]
-    host 1: 13.209.93.133    172.31.15.117
-    host 2: 15.164.136.136   172.31.0.89
-    host 3: 15.164.161.233   172.31.0.71
-    host 4: 15.164.172.180   172.31.8.189
-    host 5: 15.164.189.170   172.31.12.75 
+### [IP addresses by host]
+    
+    New IP addresses (host: 1~5, public & private)
+    52.78.148.50	172.31.0.116
+    52.78.3.56	    172.31.3.209
+    52.78.52.113	172.31.12.210
+    52.78.66.117	172.31.8.176
+    54.180.166.152	172.31.2.67
+    (참고: JDK버전 이슈로 새 IP 부여받음. 일부 내용은 아래 명시된 최초 IP로 세팅한 내용이 남아있음) 
   
+~~host 1: 13.209.93.133    172.31.15.117<br/>
+host 2: 15.164.136.136   172.31.0.89<br/>
+host 3: 15.164.161.233   172.31.0.71<br/>
+host 4: 15.164.172.180   172.31.8.189<br/>
+host 5: 15.164.189.170   172.31.12.75~~<br/>
+
   
 ## System pre-configuration checks
 
 ### [Connect to each server]
-    (by terminal) (e.g. #ssh -i /path/to/keyname.pem centos@13.209.93.133)   
+    (by terminal)
+        # chmod 400 key.pem 
+        # ssh -i /path/to/key.pem centos@13.209.93.133 
     (by secureCRT)
 
 ### [Update yum] 
