@@ -1,10 +1,10 @@
-# 20190704-DataEngineering (Con't) 
+# BDE_3_TestCluster.md
+    20190704-DataEngineering (Con't) 
 
 
 ## Let’s test out our cluster 
     
 ### [1. Create user “training” in linux and in hdfs]
-
     useradd training -G hadoop 
     passwd training 
     hdfs dfs -mkdir /user/training
@@ -20,35 +20,86 @@
     source posts23-04-2019-02-44.sql
 
 ### [3. Extract tables authors and posts from the database and create Hive tables]
+    #check 
+    beeline -u jdbc:hive2://cm.skplanet.com:10000 -n hive
 
-#### a. Use Sqoop to import the data from authors and posts 
+    authors, posts
 
-        #check 
-        beeline -u jdbc:hive2://cm.skplanet.com:10000 -n hive
+    sqoop import --connect jdbc:mysql://cm.skplanet.com:3306/test \
+    --username training  \
+    -P training   \
+    --table authors     \
+    --target-dir /user/training   \
+    --fields-terminated-by ","    \
+    --hive-import    \
+    --create-hive-table    \
+    --hive-table authors
 
-        authors, posts
+### [4.Create and run a Hive/Impala query]
 
-        sqoop import --connect jdbc:mysql://cm.skplanet.com:3306/test \
-        --username training  \
-        -P training   \
-        --table authors     \
-        --target-dir /user/training   \
-        --fields-terminated-by ","    \
-        --hive-import    \
-        --create-hive-table    \
-        --hive-table authors
+#### sqoop
+    sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table authors  --driver com.mysql.jdbc.Driver --target-dir /user/training/authors --hive-import --hive-table test.authors 
+    sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table posts  --driver com.mysql.jdbc.Driver --target-dir /user/training/posts --hive-import --hive-table test.posts
 
-#### b. For both tables, you will import the data in tab delimited text format 
+    CREATE External TABLE `authors`(
+      `id` int,
+      `first_name` string,
+      `last_name` string,
+      `email` string,
+      `birthdate` string,
+      `added` string)
+    COMMENT 'Imported by sqoop on 2019/07/04 05:42:59'
+    ROW FORMAT SERDE
+      'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+    WITH SERDEPROPERTIES (
+      'field.delim'='\u0001',
+      'line.delim'='\n',
+      'serialization.format'='\u0001')
+    STORED AS INPUTFORMAT
+      'org.apache.hadoop.mapred.TextInputFormat'
+    OUTPUTFORMAT
+      'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+    LOCATION
+      'hdfs://master1.skplanet.com:8020/user/training/authors'
+    TBLPROPERTIES (
+      'COLUMN_STATS_ACCURATE'='true',
+      'numFiles'='4',
+      'totalSize'='760827',
+      'transient_lastDdlTime'='1562218982')
 
-#### c. The imported data should be saved in training’s HDFS home directory 
-        i. Create authors and posts directories in your HDFS home directory 
-        ii. Save the imported data in each 
+#### impala
+    1) shell실행
+     명령어 : impala-shell 
+    2) 접속후 하이브 테이블 메타정보 갱신
+      INVALIDATE METADATA 
+    3) 테이블 데이터 확인
+     show databases;
+     use test;
+     select * from authors limit 10;
+     
+#### export sqoop
+ 
+#### hive query to hdfs 
+        INSERT OVERWRITE DIRECTORY '/user/training/results'
+        select a.id, a.fname, a.Lname, count(a.pid)
+        from (
+            select authors.id as id, authors.first_name as fname, authors.last_name as Lname, posts.id as pid
+          from authors, posts
+          where authors.id = posts.author_id
+        ) a
+        group by a.id, a.fname, a.Lname;
 
-#### d. In Hive, create 2 tables: authors and posts. 
-They will contain the data that you imported from Sqoop in above step. 
+##### create mysql table (test.results)
+        create table test.results (
+          id varchar(100)
+          , fname varchar(100)
+          , Lname varchar(100)
+          , num_posts int
+        );
 
-#### e. You are free to use whatever database in Hive. 
+#### hdfs to mysql (sqoop)
+        sqoop export --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --driver com.mysql.jdbc.Driver --table test.results --export-dir /user/training/results --input-fields-terminated-by '\0001'
 
-#### f. Create authors as an external table. 
 
-#### g. Create posts as a managed table.
+
+
