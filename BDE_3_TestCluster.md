@@ -10,7 +10,7 @@
     hdfs dfs -mkdir /user/training
     hdfs dfs -chown training:hadoop /user/training
 
-### [2.    ]
+### [2. In MySQL create the sample tables that will be used for the rest of the test]
     mysql -u root -p
     CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
     GRANT ALL ON *.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
