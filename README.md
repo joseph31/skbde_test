@@ -1,4 +1,6 @@
 # README.md
+
+## 개요 
     * 과정명: SK ICT Big Data Engineering 통합실습  
     * 일시: 20190703-0705
     * 강사: Helry Park (hwpark at wiken.co.kr) 
