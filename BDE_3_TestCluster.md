@@ -44,7 +44,8 @@
         i. Create authors and posts directories in your HDFS home directory 
         ii. Save the imported data in each 
 
-#### d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step. 
+#### d. In Hive, create 2 tables: authors and posts. 
+They will contain the data that you imported from Sqoop in above step. 
 
 #### e. You are free to use whatever database in Hive. 
 
