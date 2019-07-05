@@ -1,7 +1,7 @@
 # 20190704-DataEngineering (Con't) 
 
 
-## Install Sqoop, Spark, and Kafka
+## Install Sqoop, Spark, Impala and Kafka
     
 ### [Install Sqoop]
     sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table authors  --driver com.mysql.jdbc.Driver --target-dir /user/training/authors --hive-import --hive-table test.authors 
