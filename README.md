@@ -5,12 +5,13 @@
     * 일시: 20190703-0705
     * 강사: Helry Park (hwpark at wiken.co.kr) 
     * Group 4: 정명훈(리더, SK planet), 전평재(SK planet), 양진욱(SK planet)
-    * 파일 구성
-        BDE_1_InstallCM.md
-        BDE_2_InstallSqoopSparkImpalaKafka.md
-        BDE_3_TestCluster.md
-        BDE_4_YelpDataAnalysis.md
-        yelp_create_table_query
+    
+* 파일 링크    
+    * [BDE_1_InstallCM.md](https://github.com/joseph31/skbde_test/blob/master/BDE_1_InstallCM.md )
+    * [BDE_2_InstallSqoopSparkImpalaKafka.md](https://github.com/joseph31/skbde_test/blob/master/BDE_2_InstallSqoopSparkImpalaKafka.md)
+    * [BDE_3_TestCluster.md](https://github.com/joseph31/skbde_test/blob/master/BDE_3_TestCluster.md)
+    * [BDE_4_YelpDataAnalysis.md](https://github.com/joseph31/skbde_test/blob/master/BDE_4_YelpDataAnalysis.md)
+    * [yelp_create_table_query](https://github.com/joseph31/skbde_test/blob/master/yelp_create_table_query)
         
     
 ## 목차 및 내용  
