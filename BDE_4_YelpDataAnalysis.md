@@ -21,7 +21,9 @@
 
 
 ### [Step 1: Data Preparation]
-    (TBD)
+    Source Link: http://bit.ly/SKT_COMB_LAB
+    # tar -zxvf yelp_dataset.tar
+        /dataset/business.json, checkin.json, photos.json, review.json, tip.json, user.json
     
 ### [Step 2: Uploading Data to HDFS For Storage and Analysis]
     hdfs dfs -mkdir /user/training/yelp
