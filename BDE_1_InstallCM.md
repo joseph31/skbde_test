@@ -1,25 +1,11 @@
-# BDE_1_InstallCM.md
-    20190703-DataEngineering
+# 20190703-DataEngineering
 
 
 ## Intro 
 ### [Basic Info] 
     What: Big Data Engineering Hands-on
-    Who: group 4 - 정명훈(리더), 전평재, 양진욱
+    Who: group 4 
     Which ones: 1) CM & related env. installation 2) Yelp data analysis 3) Spark 
-    
-### [Table of Contnet] 
-    ## System pre-configuration checks        
-    ## Path B install using CM 5.15x (part 1)
-    ## Install a Cluster & deploy CDH (part 2)
-        Step 1: Configure a Repository
-        Step 2: Install JDK
-        Step 3: Install Cloudera Manager Server
-        Step 4: Install Databases
-        Step 5: Set up the Cloudera Manager Database
-        Step 6: Install CDH and Other Software
-        Step 7: Set Up a Cluster
-    
 
 ### [IP addresses by host]
     
@@ -472,22 +458,5 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1zmB/NDVVD7gpg9p0cJIDx+sd1XPjGBhIptrTlM08i4lwXObR7zt/wOLVXdjvP5GE6cWf3OwyQzy8kL/T410YYkpeiolJAW7BVA00lZkI0yBGKVG/vW9/WkvQLg94Xtj93vHGkLnWgyIsjdxIlUeb8eFRxjhoExRvUIKZgINDtBZkqJT2vQJeXXPHcAMcN5aNkL2yp6icG2MPvnBiPqHc4sTNu6EkL3l9+x+S53qWaKrB9QF9/JVr5jsmdRfzXew5mAF5Cify0gktJEwg0jSImUjaH5SrKHqc+IpTxApttKRiRAFS1fEEhZR8FaqtOmP+URM4gnZNGQbVAdEc+KSl root@cm.skplanet.com
 
 
-(next)
+(end of file)
 
-## etc.
-
-### [scp SQL files]
-    authors-23-04-2019-02-34-beta.sql.zip
-    posts23-04-2019-02-44.sql.zip
-
-    # scp  -i ./SKT.pem ./authors-23-04-2019-02-34-beta.sql.zip centos@13.209.93.133:/home/centos
-    # scp  -i ./SKT.pem ./posts23-04-2019-02-44.sql.zip centos@13.209.93.133:/home/centos
-    [root@cm centos]# ls -al *.sql
-    -rwxrwxrwx 1 root root   892780 Apr 23 02:34 authors-23-04-2019-02-34-beta.sql
-    -rwxrwxrwx 1 root root 52680682 Apr 23 02:44 posts23-04-2019-02-44.sql
-    # mysql -u root -p
-    CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
-    GRANT ALL ON test.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
-    # mysql -u training -p
-    # source authors-23-04-2019-02-34-beta.sql
-    # source posts23-04-2019-02-44.sql
