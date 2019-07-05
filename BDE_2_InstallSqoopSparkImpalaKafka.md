@@ -112,7 +112,7 @@
     # hdfs dfs -mkdir /user/training
     # hdfs dfs -chown training:hadoop /user/training
     
-### (추가바람) 
+### []
     # mysql -u root -p
     CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
     GRANT ALL ON *.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
