@@ -148,8 +148,9 @@
     f. Create authors as an external table. 
     g. Create posts as a managed table. 
 
-
-
+### [Install Kafka]
+    CM에서 인스톨
+    
 ## Let's test out our cluster 
     * (TBD)
   
