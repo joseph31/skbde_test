@@ -182,20 +182,31 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # sudo systemctl enable ntpd
     # sudo systemctl start ntpd
     # sudo systemctl status ntpd
+    ...
     Active: active (running) since ... 
     
     * chronyd.service - NTP client/server
-    # systemctl status chronyd  : inactive 상태임
+    # sudo ssystemctl status chronyd
+    ...
+    Active: inactive (dead)
       
 ### [Disable IPv6]
-    ref: https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_IPv6_%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94
-    [root@ip-172-31-15-117 ~]# sysctl net.ipv6.conf.all.disable_ipv6
-    net.ipv6.conf.all.disable_ipv6 = 0            → disable_ipv6 이 0이므로 활성화 상태임
-    # sysctl -w net.ipv6.conf.all.disable_ipv6=1   → disable_ipv6 이 1이므로 비활성화됨
-    # vi /etc/sysctl.conf
+    # sudo sysctl net.ipv6.conf.all.disable_ipv6
+    net.ipv6.conf.all.disable_ipv6 = 0              (* disable_ipv6 = 0: active
+    # sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1    (* disable_ipv6 = 1: inactive) 
+    net.ipv6.conf.all.disable_ipv6 = 0 
+    
+    # sudo vi /etc/sysctl.conf
+    ...
+    vm.swappiness = 1
+    ... 
     net.ipv6.conf.all.disable_ipv6 = 1
     net.ipv6.conf.default.disable_ipv6 = 1
+    
     # sysctl -p
+    vm.swappiness = 1
+    net.ipv6.conf.all.disable_ipv6 = 1
+    net.ipv6.conf.default.disable_ipv6 = 1
       
 ### [desc] 
     During the instavllation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
