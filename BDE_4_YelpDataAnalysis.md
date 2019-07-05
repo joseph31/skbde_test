@@ -279,19 +279,19 @@
 
 ##### * 참고용 정보 : business table schema
     address                     string                         from deserializer
-    business_id              string                         from deserializer
-    categories                array<string>          from deserializer
-    city                             string                         from deserializer
+    business_id                 string                         from deserializer
+    categories                  array<string>                  from deserializer
+    city                        string                         from deserializer
     hours                         struct<friday:string,monday:string,saturday:string,sunday:string,thursday:string,tuesday:string,wednesday:string>                 from deserializer
-    is_open                     int                              from deserializer
-    latitude                     double                       from deserializer
-    longitude                  double                       from deserializer
-    name                         string                         from deserializer
-    neighborhood        string                         from deserializer
-    postal_code             string                         from deserializer
-    review_count          int                              from deserializer
-    stars                          double                       from deserializer
-    state                          string                         from deserializer
+    is_open                     int                            from deserializer
+    latitude                    double                          from deserializer
+    longitude                   double                          from deserializer
+    name                        string                         from deserializer
+    neighborhood                string                         from deserializer
+    postal_code                 string                         from deserializer
+    review_count                int                              from deserializer
+    stars                       double                          from deserializer
+    state                       string                         from deserializer
     attributes                            struct<accepts_insurance:boolean,ages_allowed:string,alcohol:string,bike_parking:boolean,business_accepts_bitcoin:boolean,business_accepts_credit_cards:boolean,by_appointment_only:boolean,byob:boolean,byob_corkage:string,caters:boolean,coat_check:boolean,corkage:boolean,dogs_allowed:boolean,drive_thru:boolean,good_for_dancing:boolean,good_for_kids:boolean,happy_hour:boolean,has_tv:boolean,noise_level:string,open24hours:boolean,outdoor_seating:boolean,restaurants_attire:string,restaurants_counter_service:boolean,restaurants_delivery:boolean,restaurants_good_for_groups:boolean,restaurants_reservations:boolean,restaurants_table_service:boolean,restaurants_take_out:boolean,smoking:string,wheelchairaccessible:boolean,wifi:string,ambience:struct<casual:boolean,classy:boolean,divey:boolean,hipster:boolean,intimate:boolean,romantic:boolean,touristy:boolean,trendy:boolean,upscale:boolean>,bestnights:struct<friday1:boolean,monday1:boolean,saturday1:boolean,sunday1:boolean,thursday1:boolean,tuesday1:boolean,wednesday1:boolean>,businessparking:struct<garage:boolean,lot:boolean,street:boolean,valet:boolean,validated:boolean>,dietaryrestrictions:struct<dairy_free:boolean,gluten_free:boolean,halal:boolean,kosher:boolean,soy_free:boolean,vegan:boolean,vegetarian:boolean>,goodformeal:struct<breakfast:boolean,brunch:boolean,dessert:boolean,dinner:boolean,latenight:boolean,lunch:boolean>,hairspecializesin:struct<africanamerican:boolean,asian:boolean,coloring:boolean,curly:boolean,extensions:boolean,kids:boolean,perms:boolean,straightperms:boolean>,music:struct<backgroundmusic:boolean,dj:boolean,jukebox:boolean,karaoke:boolean,live:boolean,nomusic:boolean,video:boolean>,restaurantspricerange2:int>         from deserializer
     cat_exploded          string                         from deserializer
 
@@ -355,20 +355,20 @@
         Restaurants         4.5            6516
         Restaurants         2.5            5448
         Restaurants         2.0            2945
-        Food     4.0            2919
-        Food     3.5            2179
-        Nightlife               3.5            2133
-        Food     4.5            2079
-        Nightlife               4.0            2057
-        Bars     3.5            2052
-        Bars     4.0            1990
-        American (Traditional)       3.5            1631
+        Food                4.0            2919
+        Food                3.5            2179
+        Nightlife           3.5            2133
+        Food                4.5            2079
+        Nightlife           4.0            2057
+        Bars                3.5            2052
+        Bars                4.0            1990
+        American (Traditional)      3.5            1631
         Sandwiches          4.0            1566
         Restaurants         5.0            1492
-        Nightlife               3.0            1486
-        American (Traditional)       3.0            1461
-        Pizza    3.5            1454
-        Pizza    4.0            1450
+        Nightlife           3.0            1486
+        American (Traditional)      3.0            1461
+        Pizza               3.5            1454
+        Pizza               4.0            1450
 
 ##### 5) What ratings do the majority of restaurants have?
     >> query
