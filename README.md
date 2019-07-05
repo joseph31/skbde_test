@@ -9,20 +9,20 @@
 
 ### [IP addresses by host]
     
-    New IP addresses (host: 1~5, public & private)
+    IP addresses (host: 1~5, public & private)
     52.78.148.50	172.31.0.116
     52.78.3.56      172.31.3.209
     52.78.52.113	172.31.12.210
     52.78.66.117	172.31.8.176
     54.180.166.152	172.31.2.67
-    (참고: JDK버전 이슈로 새 IP 부여받음. 일부 내용은 아래 명시된 최초 IP로 세팅한 내용이 남아있음) 
   
 ~~previous IPs</br>
 host 1: 13.209.93.133    172.31.15.117<br/>
 host 2: 15.164.136.136   172.31.0.89<br/>
 host 3: 15.164.161.233   172.31.0.71<br/>
 host 4: 15.164.172.180   172.31.8.189<br/>
-host 5: 15.164.189.170   172.31.12.75~~<br/>
+host 5: 15.164.189.170   172.31.12.75<br/>
+(참고: CM설치시 JDK 1.7 설치/충돌로~새 IP 부여받음. 아래 일부내용에는 이 IP가 남아 있을 수 있음)~<br/>
 
   
 ## System pre-configuration checks
@@ -35,6 +35,8 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
 
 ### [Update yum] 
     # sudo yum -y update
+    
+    cf. 아래는 필요 시 실행 
     # sudo yum install -y wget
     # sudo yum install -y unzip 
 
@@ -208,12 +210,11 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     net.ipv6.conf.all.disable_ipv6 = 1
     net.ipv6.conf.default.disable_ipv6 = 1
       
-### [desc] 
+### [desc 10.] 
     During the instavllation process, Cloudera Manager Server will need to remotely access each of the remaining nodes. 
     In order to facilitate this, you may either set up an admin user and password to be used by Cloudera Manager Server 
     or setup a private/public key access. 
     Whichever method you choose, make sure you test access with ssh before proceeding.
-    * (별도 설명 요) 
       
 ### [Show that forward and reverse host lookups are correctly resolved] 
     In this lab, we will use /etc/hosts Files setting to accomplish this 
@@ -222,12 +223,13 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     Use getent to make sure you are getting proper host name and ip address 
             
 ### [Change the hostname of each of the nodes to match the FQDN that you entered in the /etc/hosts file]
-    # vi /etc/hosts
+    # vi /etc/hosts (* 작성)
     172.31.15.117    cm.skplanet.com        cm
     172.31.0.89      master1.skplanet.com   master1
     172.31.0.71      worker1.skplanet.com   worker1
     172.31.8.189     worker2.skplanet.com   worker2
     172.31.12.75     worker3.skplanet.com   worker3
+    # getent hosts (* 확인) 
    
     # hostnamectl set-hostname worker3.skplanet.com
     # vi /etc/sysconfig/network 
@@ -237,23 +239,26 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
 ## Path B install using CM 5.15x (part 1)
 
 ### [Copy CM Repo]
-    version: 5.15.2 
-    ref: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
+    version = 5.15.2: https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.15.2/
+    Documentation: https://www.cloudera.com/documentation/enterprise/5-15-x/topics/configure_cm_repo.html#cm_repo
     
-    # wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+    # sudo yum install -y wget
+    # sudo wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
     # sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
-
+    
 ### [Install JDK]
     version: 1.8
     [localhost]# scp  -i ./key.pem ./jdk-8u211-linux-x64.tar.gz centos@13.209.93.133:/home/centos
     # tar -zxvf jdk-8u202-linux-x64.tar.gz
     # mkdir /app
     # mv jdk1.8.0_202 /app/
-    # vi /etc/profile
+    # vi /etc/profile   (* 작성) 
     JAVA_HOME=/app/jdk1.8.0_202
     PATH=$PATH:$JAVA_HOME/bin
     source /etc/profile
-      
+    # java -version     (* 확인) 
+    java version "1.8.0_211"
+          
 ### [Install & configure MySQL]
     # rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
     # yum install -y mysql-community-server
@@ -285,23 +290,24 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
     # yum remove  cloudera-manager-daemons cloudera-manager-server
     # yum install -y cloudera-manager-daemons cloudera-manager-agent
     
-    [error]
-    [root@cm ~]#  yum install cloudera-manager-daemons cloudera-manager-agent
-    ...
-    Error: Package: cloudera-manager-agent-5.16.2-1.cm5162.p0.7.el6.x86_64 (cloudera-manager)
-               Requires: libpython2.6.so.1.0()(64bit)
-     You could try using --skip-broken to work around the problem
-     You could try running: rpm -Va --nofiles --nodigest
+    cf. troubleshooting 
+        [error]
+        [root@cm ~]#  yum install cloudera-manager-daemons cloudera-manager-agent
+        ...
+        Error: Package: cloudera-manager-agent-5.16.2-1.cm5162.p0.7.el6.x86_64 (cloudera-manager)
+                   Requires: libpython2.6.so.1.0()(64bit)
+         You could try using --skip-broken to work around the problem
+         You could try running: rpm -Va --nofiles --nodigest
 
-    [action.1]
-    wget https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz
+        [action.1]
+        wget https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz
 
-    [action.2]
-    rpm -Uvh https://archive.fedoraproject.org/pub/archive/epel/5/x86_64/python26-2.6.8-2.el5.x86_64.rpm
+        [action.2]
+        rpm -Uvh https://archive.fedoraproject.org/pub/archive/epel/5/x86_64/python26-2.6.8-2.el5.x86_64.rpm
 
-    [원인]
-    6 버전으로 다운 받아서 생긴 이슈  
-    wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+        [원인]
+        6 버전으로 다운 받아서 생긴 이슈  
+        wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
 
 
 ### [Setting mysqld]
