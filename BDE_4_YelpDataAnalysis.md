@@ -245,20 +245,19 @@
 
 #### 1. bussiness json파일을 hive schema 없이 테이블로 넣기
 
-##### 1) spark >>  json 스트링에서 parquet에서 사용불가한 문자인 '-'를 '_'으로 변환하여 parquet파일로 쓰기
-
+##### 1) spark >>  json 스트링에서 parquet에서 사용불가한 문자인 '-'를 '_'으로 변환하여 pqrquet 파일로 쓰기
     val rdd = spark.read.textFile("hdfs:/user/training/yelp/business").map(value => value.replace("dairy-free", "dairy_free").replace("gluten-free","gluten_free").replace("soy-free","soy_free")).rdd
     val df = spark.read.json(rdd)
     df.write.format("parquet").save("hdfs:/user/training/max/business_parquet")
 
-##### 2) hdfs 에서 file 경로복사
+##### 2) hdfs 에서 file 경로 복사
     
-##### 3) impala에서 테이블 처리 : impala에서는 parquet파일을 기반으로 impala table를 생성할수 있음.
+##### 3) impala에서 테이블 처리 : impala에서는 parquet 파일을 기반으로 impala table을 생성할 수 있음
     CREATE EXTERNAL TABLE test.business_max LIKE PARQUET 'hdfs:/user/training/max/business_parquet/part-00000-5928b258-0027-48b6-bc5a-9296f7d2690a-c000.snappy.parquet'
       STORED AS PARQUET
       LOCATION 'hdfs:/user/training/max/business_parquet';
  
-#### 2. yelp데이터 분석하기.
+#### 2. Yelp data 분석하기
 
 ##### * 참고용 정보 : business table schema
     address                     string                         from deserializer
@@ -278,20 +277,20 @@
     attributes                            struct<accepts_insurance:boolean,ages_allowed:string,alcohol:string,bike_parking:boolean,business_accepts_bitcoin:boolean,business_accepts_credit_cards:boolean,by_appointment_only:boolean,byob:boolean,byob_corkage:string,caters:boolean,coat_check:boolean,corkage:boolean,dogs_allowed:boolean,drive_thru:boolean,good_for_dancing:boolean,good_for_kids:boolean,happy_hour:boolean,has_tv:boolean,noise_level:string,open24hours:boolean,outdoor_seating:boolean,restaurants_attire:string,restaurants_counter_service:boolean,restaurants_delivery:boolean,restaurants_good_for_groups:boolean,restaurants_reservations:boolean,restaurants_table_service:boolean,restaurants_take_out:boolean,smoking:string,wheelchairaccessible:boolean,wifi:string,ambience:struct<casual:boolean,classy:boolean,divey:boolean,hipster:boolean,intimate:boolean,romantic:boolean,touristy:boolean,trendy:boolean,upscale:boolean>,bestnights:struct<friday1:boolean,monday1:boolean,saturday1:boolean,sunday1:boolean,thursday1:boolean,tuesday1:boolean,wednesday1:boolean>,businessparking:struct<garage:boolean,lot:boolean,street:boolean,valet:boolean,validated:boolean>,dietaryrestrictions:struct<dairy_free:boolean,gluten_free:boolean,halal:boolean,kosher:boolean,soy_free:boolean,vegan:boolean,vegetarian:boolean>,goodformeal:struct<breakfast:boolean,brunch:boolean,dessert:boolean,dinner:boolean,latenight:boolean,lunch:boolean>,hairspecializesin:struct<africanamerican:boolean,asian:boolean,coloring:boolean,curly:boolean,extensions:boolean,kids:boolean,perms:boolean,straightperms:boolean>,music:struct<backgroundmusic:boolean,dj:boolean,jukebox:boolean,karaoke:boolean,live:boolean,nomusic:boolean,video:boolean>,restaurantspricerange2:int>         from deserializer
     cat_exploded          string                         from deserializer
 
-##### 1) 공통적으로 사용할 view 생성.
+##### 1) 공통적으로 사용할 view 생성
     cateogries 컬럼을 explode해서 view 로 생성
 
     CREATE VIEW r_view AS
     SELECT Restaurants.*, category
     FROM Restaurants LATERAL VIEW explode(categories) a AS category
 
-##### 2) Which Cities Have The Highest Number Of Restaurants?
+##### 2) Which cities have the highest number of restaurants?
     >> query
         select city, count(1) as cnt from Restaurants group by city  order by cnt desc limit 1;
     >> result
         Toronto                7148
 
-##### 3)  Top 15 Sub-Categories Of Restaurants
+##### 3) Top 15 sub-categories of restaurants
     >> query
         SELECT category, count(1) as cnt
         FROM Restaurants LATERAL VIEW explode(categories) a AS category
@@ -323,7 +322,7 @@
         American (New) 3979
         Cafes    3039
 
-##### 4) Distribution of ratings vs categories
+##### 4) Distribution of ratings vs. categories
     >> query
         SELECT category, stars, count(1) as cnt
         FROM r_view
