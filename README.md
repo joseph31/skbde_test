@@ -21,8 +21,8 @@ host 1: 13.209.93.133    172.31.15.117<br/>
 host 2: 15.164.136.136   172.31.0.89<br/>
 host 3: 15.164.161.233   172.31.0.71<br/>
 host 4: 15.164.172.180   172.31.8.189<br/>
-host 5: 15.164.189.170   172.31.12.75<br/>
-(참고: CM설치시 JDK 1.7 설치/충돌로~새 IP 부여받음. 아래 일부내용에는 이 IP가 남아 있을 수 있음)~<br/>
+host 5: 15.164.189.170   172.31.12.75~~<br/>
+~~(참고: CM설치시 JDK 1.7 설치/충돌로~새 IP 부여받음. 아래 일부내용에는 이 IP가 남아 있을 수 있음)~~<br/>
 
   
 ## System pre-configuration checks
@@ -286,9 +286,7 @@ host 5: 15.164.189.170   172.31.12.75<br/>
 ## Install & configure CM
 
 ### [Install CM] 
-    # yum install cloudera-manager-daemons cloudera-manager-server
-    # yum remove  cloudera-manager-daemons cloudera-manager-server
-    # yum install -y cloudera-manager-daemons cloudera-manager-agent
+    # sudo yum install -y cloudera-manager-daemons cloudera-manager-agent
     
     cf. troubleshooting 
         [error]
