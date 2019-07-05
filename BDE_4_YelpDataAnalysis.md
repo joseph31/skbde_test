@@ -1,4 +1,4 @@
-# BDE4_Yelp_DataAnalysis.md
+# BDE_4_YelpDataAnalysis.md
     20190705-DataEngineering (Con't)
     Title: Yelp Restaurants Big Data Analysis Project Tutorial
         
@@ -238,3 +238,5 @@
         ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
         STORED AS TEXTFILE
         LOCATION '/user/training/yelp/tip'; 
+
+(end of file) 
