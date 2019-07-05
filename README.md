@@ -9,6 +9,7 @@
         BDE_1_InstallCM.md
         BDE_2_InstallSqoopSparkImpalaKafka.md
         BDE_3_TestCluster.md
+        BDE_4_YelpDataAnalysis.md
         yelp_create_table_query
         
     
@@ -39,6 +40,25 @@
             [4. Create and run a Hive/Impala query]
             [5. Export the data from above query to MySQL]
 
+    * BDE_4_YelpDataAnalysis.md
+         [Intro & Objectives]
+         [Step 1: Data Preparation]
+         [Step 2: Uploading Data to HDFS For Storage and Analysis]
+         [Step 3: Adding RCONGUI JSON SerDe]
+         [Step 4: Creating Tables in HIVE]
+         [Analysis]
+            1. bussiness json파일을 hive schema 없이 테이블로 넣기
+               1) spark >> json 스트링에서 parquet에서 사용불가한 문자인 '-'를 '_'으로 변환하여 pqrquet 파일로 쓰기
+               2) hdfs 에서 file 경로 복사
+               3) impala에서 테이블 처리 : impala에서는 parquet 파일을 기반으로 impala table을 생성할 수 있음
+            2. Yelp data 분석하기
+               1) 공통적으로 사용할 view 생성
+               2) Which cities have the highest number of restaurants?
+               3) Top 15 sub-categories of restaurants
+               4) Distribution of ratings vs. categories
+               5) What ratings do the majority of restaurants have?
+               6) Rating distribution in restaurant reviews
+            
     * yelp_create_table_query
         ## 테이블 생성쿼리
         
