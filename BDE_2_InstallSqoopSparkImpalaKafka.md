@@ -1,6 +1,8 @@
 # BDE_2_InstallSqoopSparkImpalaKafka.md
     20190704-DataEngineering (Con't) 
-
+    ToC
+        ### [Install Spark2]
+        ### [Install Sqoop, Impala, Kafka]
 
 ## Install Sqoop, Spark, Impala and Kafka
     
@@ -48,4 +50,4 @@
     Install them in CM! 
     
 
-
+(end of file)
