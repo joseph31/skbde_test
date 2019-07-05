@@ -3,6 +3,22 @@
 
 
 ## Let’s test out our cluster 
+
+### [0. scp SQL files]
+    authors-23-04-2019-02-34-beta.sql.zip
+    posts23-04-2019-02-44.sql.zip
+
+    # scp  -i ./SKT.pem ./authors-23-04-2019-02-34-beta.sql.zip centos@13.209.93.133:/home/centos
+    # scp  -i ./SKT.pem ./posts23-04-2019-02-44.sql.zip centos@13.209.93.133:/home/centos
+    [root@cm centos]# ls -al *.sql
+    -rwxrwxrwx 1 root root   892780 Apr 23 02:34 authors-23-04-2019-02-34-beta.sql
+    -rwxrwxrwx 1 root root 52680682 Apr 23 02:44 posts23-04-2019-02-44.sql
+    # mysql -u root -p
+    CREATE DATABASE test DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
+    GRANT ALL ON test.* TO 'training'@'%' IDENTIFIED BY 'Admin123!';
+    # mysql -u training -p
+    # source authors-23-04-2019-02-34-beta.sql
+    # source posts23-04-2019-02-44.sql
     
 ### [1. Create user “training” in linux and in hdfs]
     useradd training -G hadoop 
