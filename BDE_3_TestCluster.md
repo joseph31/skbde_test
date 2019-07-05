@@ -59,7 +59,6 @@
     --hive-table authors
 
 ### [4. Create and run a Hive/Impala query]
-### [5. Export the data from above query to MySQL]
 
 #### [sqoop]
     sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table authors  --driver com.mysql.jdbc.Driver --target-dir /user/training/authors --hive-import --hive-table test.authors 
@@ -101,6 +100,8 @@
      use test;
      select * from authors limit 10;
      
+### [5. Export the data from above query to MySQL]
+
 #### [export sqoop]
  
 ###### hive query to hdfs 
