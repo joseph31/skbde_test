@@ -37,7 +37,7 @@
 
 ### [4.Create and run a Hive/Impala query]
 
-#### sqoop
+### [sqoop]
     sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table authors  --driver com.mysql.jdbc.Driver --target-dir /user/training/authors --hive-import --hive-table test.authors 
     sqoop import --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --table posts  --driver com.mysql.jdbc.Driver --target-dir /user/training/posts --hive-import --hive-table test.posts
 
@@ -67,7 +67,7 @@
       'totalSize'='760827',
       'transient_lastDdlTime'='1562218982')
 
-#### impala
+##### [impala]
     1) shell실행
      명령어 : impala-shell 
     2) 접속후 하이브 테이블 메타정보 갱신
@@ -77,9 +77,9 @@
      use test;
      select * from authors limit 10;
      
-#### export sqoop
+#### [export sqoop]
  
-#### hive query to hdfs 
+###### hive query to hdfs 
         INSERT OVERWRITE DIRECTORY '/user/training/results'
         select a.id, a.fname, a.Lname, count(a.pid)
         from (
@@ -89,7 +89,7 @@
         ) a
         group by a.id, a.fname, a.Lname;
 
-##### create mysql table (test.results)
+###### create mysql table (test.results)
         create table test.results (
           id varchar(100)
           , fname varchar(100)
@@ -97,9 +97,6 @@
           , num_posts int
         );
 
-#### hdfs to mysql (sqoop)
+##### hdfs to mysql (sqoop)
         sqoop export --connect jdbc:mysql://cm:3306/test --username training --password Hadoop123! --driver com.mysql.jdbc.Driver --table test.results --export-dir /user/training/results --input-fields-terminated-by '\0001'
-
-
-
 
