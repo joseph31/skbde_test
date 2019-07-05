@@ -1,5 +1,5 @@
 # BDE_1_InstallCM.md
-#### 20190703-DataEngineering
+    20190703-DataEngineering
 
 
 ## Intro 
@@ -461,7 +461,7 @@ host 5: 15.164.189.170   172.31.12.75~~<br/>
 
 (next)
 
-## Install CM, database, CDH(Con't)
+## etc.
 
 ### [scp SQL files]
     authors-23-04-2019-02-34-beta.sql.zip
